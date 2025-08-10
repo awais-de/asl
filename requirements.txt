@@ -1,0 +1,9 @@
+torch
+transformers
+spacy
+opencv-python
+mediapipe
+datasets
+numpy
+pandas
+tqdm
