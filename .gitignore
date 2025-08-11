@@ -1,0 +1,14 @@
+# Ignore all files in data except .gitkeep
+data/*
+!data/.gitkeep
+
+# Ignore all files in models except .gitkeep
+models/*
+!models/.gitkeep
+
+# Ignore all files in logs except .gitkeep
+logs/*
+!logs/.gitkeep
+
+# Ignore the entire .venv folder
+.venv/
