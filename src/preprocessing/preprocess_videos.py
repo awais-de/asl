@@ -2,9 +2,9 @@ import json
 import pandas as pd
 from typing import Tuple, Dict, List
 from pathlib import Path
-import logging
+from src.utils.logging import get_logger
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = get_logger(__name__)
 
 def load_wlasl_data(json_path: Path) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[str, List[str]]]:
     """
@@ -22,19 +22,19 @@ def load_wlasl_data(json_path: Path) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[s
     gloss_list = []
     gloss_to_video_list = []
 
-    logging.info(f"Loading WLASL JSON data from: {json_path}")
+    logger.info(f"Loading WLASL JSON data from: {json_path}")
 
     try:
         with open(json_path, 'r') as f:
             wlasl_data = json.load(f)
     except Exception as e:
-        logging.error(f"Failed to read JSON file {json_path}: {e}")
+        logger.error(f"Failed to read JSON file {json_path}: {e}")
         raise
 
     for idx, entry in enumerate(wlasl_data):
         gloss = entry.get('gloss', '').strip()
         if not gloss:
-            logging.warning(f"Skipping entry {idx} with empty gloss")
+            logger.warning(f"Skipping entry {idx} with empty gloss")
             continue
 
         gloss_list.append({'gloss_id': idx, 'gloss': gloss})
@@ -47,7 +47,7 @@ def load_wlasl_data(json_path: Path) -> Tuple[pd.DataFrame, pd.DataFrame, Dict[s
 
     gloss_to_videos_dict = dict(zip(df_gloss_to_video['gloss'], df_gloss_to_video['video_ids']))
 
-    logging.info(f"Loaded {len(df_gloss)} gloss entries and their video mappings")
+    logger.info(f"Loaded {len(df_gloss)} gloss entries and their video mappings")
 
     return df_gloss, df_gloss_to_video, gloss_to_videos_dict
 
@@ -62,20 +62,18 @@ def save_gloss_video_mapping(mapping: Dict[str, List[str]], save_path: Path):
     try:
         with open(save_path, 'w') as f:
             json.dump(mapping, f, indent=4)
-        logging.info(f"Saved gloss-to-video mapping to {save_path}")
+        logger.info(f"Saved gloss-to-video mapping to {save_path}")
     except Exception as e:
-        logging.error(f"Failed to save gloss-to-video mapping: {e}")
+        logger.error(f"Failed to save gloss-to-video mapping: {e}")
         raise
 
 if __name__ == "__main__":
-    # Use relative path to your project folder or make configurable
     json_path = Path("data/raw/WLASL2000/wlasl-complete/WLASL_v0.3.json")
     mapping_save_path = Path("data/processed/gloss_to_videoid_map.json")
 
     df_gloss, df_gloss_to_video, gloss_to_videos = load_wlasl_data(json_path)
 
-    # Example usage
     example_gloss = 'book'
-    logging.info(f"Video IDs for gloss '{example_gloss}': {gloss_to_videos.get(example_gloss, [])}")
+    logger.info(f"Video IDs for gloss '{example_gloss}': {gloss_to_videos.get(example_gloss, [])}")
 
     save_gloss_video_mapping(gloss_to_videos, mapping_save_path)

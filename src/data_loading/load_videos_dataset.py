@@ -1,26 +1,26 @@
 import kagglehub
 from pathlib import Path
 import shutil
-import logging
 from datasets import load_dataset
+from src.utils.logging import get_logger
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = get_logger(__name__)
 
 def download_and_prepare_kaggle_dataset(kaggle_path: str, dest_dir: Path):
     """
     Downloads a dataset from KaggleHub and copies it to the project data folder.
     """
     try:
-        logging.info(f"Starting Kaggle dataset download: {kaggle_path}")
+        logger.info(f"Starting Kaggle dataset download: {kaggle_path}")
         dataset_cache_path = kagglehub.dataset_download(kaggle_path)
-        logging.info(f"Kaggle dataset cached at: {dataset_cache_path}")
+        logger.info(f"Kaggle dataset cached at: {dataset_cache_path}")
 
         dest_dir.mkdir(parents=True, exist_ok=True)
         shutil.copytree(dataset_cache_path, dest_dir, dirs_exist_ok=True)
-        logging.info(f"Kaggle dataset copied to: {dest_dir}")
+        logger.info(f"Kaggle dataset copied to: {dest_dir}")
 
     except Exception as e:
-        logging.error(f"Failed to download or copy Kaggle dataset {kaggle_path}: {e}")
+        logger.error(f"Failed to download or copy Kaggle dataset {kaggle_path}: {e}")
         raise
 
 def download_and_prepare_hf_dataset(dataset_name: str, dest_dir: Path):
@@ -28,16 +28,15 @@ def download_and_prepare_hf_dataset(dataset_name: str, dest_dir: Path):
     Downloads a dataset from Hugging Face datasets and saves locally.
     """
     try:
-        logging.info(f"Loading Hugging Face dataset: {dataset_name}")
+        logger.info(f"Loading Hugging Face dataset: {dataset_name}")
         dataset = load_dataset(dataset_name)
 
         dest_dir.mkdir(parents=True, exist_ok=True)
-        # Save the dataset locally in arrow/parquet format
         dataset.save_to_disk(str(dest_dir))
-        logging.info(f"Hugging Face dataset saved to: {dest_dir}")
+        logger.info(f"Hugging Face dataset saved to: {dest_dir}")
 
     except Exception as e:
-        logging.error(f"Failed to download or save HF dataset {dataset_name}: {e}")
+        logger.error(f"Failed to download or save HF dataset {dataset_name}: {e}")
         raise
 
 def main():
@@ -53,10 +52,7 @@ def main():
         "dest_dir": Path("data/raw/ASLG_PC12")
     }
 
-    # Download WLASL2000 via KaggleHub
     download_and_prepare_kaggle_dataset(wlasl_info["kaggle_path"], wlasl_info["dest_dir"])
-
-    # Download ASLG-PC12 via Hugging Face
     download_and_prepare_hf_dataset(aslg_info["hf_dataset_name"], aslg_info["dest_dir"])
 
 if __name__ == "__main__":
