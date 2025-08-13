@@ -18,6 +18,7 @@ from src.utils.helpers import (
     Artifact,
     add_artifact_to_metadata,
 )
+from src.utils.artifact_names import ASLG_PC12_TOKENIZED_PT
 
 
 class TextToGlossModel(pl.LightningModule):
@@ -107,7 +108,7 @@ def main(args=None):
     # Load run metadata and get tokenized dataset artifact
     run_id = get_latest_run_id()
     run_metadata = load_run_metadata(run_id)
-    tokenized_path_str = run_metadata["artifacts"].get("aslg_pc12_tokenized.pt")
+    tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
     if not tokenized_path_str:
         raise RuntimeError("Tokenized dataset path not found in run metadata!")
     tokenized_path = Path(tokenized_path_str)

@@ -5,6 +5,7 @@ from src.data_loading.aslg_pc12_dataset import ASLGPC12Dataset
 from src.models.text_to_gloss_model import TextToGlossModel
 from src.utils.logging import get_logger
 from src.utils.helpers import get_latest_run_id, load_run_metadata
+from src.utils.artifact_names import ASLG_PC12_TOKENIZED_PT
 
 logger = get_logger(__name__)
 
@@ -52,7 +53,7 @@ def check_model_forward(batch):
 def main():
     run_id = get_latest_run_id()
     run_metadata = load_run_metadata(run_id)
-    tokenized_path_str = run_metadata["artifacts"].get("aslg_pc12_tokenized.pt")
+    tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
     if not tokenized_path_str:
         logger.error("Tokenized dataset path not found in run metadata!")
         return

@@ -12,6 +12,10 @@ from src.utils.helpers import (
     add_artifact_to_metadata,
     Artifact,
 )
+from src.utils.artifact_names import (
+    WLASL_JSON,
+    ASLG_PC12_PARQUET,
+)
 
 logger = get_logger(__name__)
 
@@ -94,8 +98,8 @@ def main():
     try:
         wlasl_path = download_and_prepare_kaggle_dataset(wlasl_kaggle_path, Path(wlasl_dest_dir))
         wlasl_artifact = Artifact(
-            name=str(Path(wlasl_dest_dir).name),
-            type="other",
+            name=WLASL_JSON,
+            type="json",
             run_id=run_id,
             use_run_folder=False,
         )
@@ -103,8 +107,8 @@ def main():
 
         aslg_path = download_and_prepare_hf_dataset(aslg_hf_name, Path(aslg_dest_dir))
         aslg_artifact = Artifact(
-            name=str(Path(aslg_dest_dir).name),
-            type="other",
+            name=ASLG_PC12_PARQUET,
+            type="parquet",
             run_id=run_id,
             use_run_folder=False,
         )

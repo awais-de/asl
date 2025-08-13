@@ -1,0 +1,8 @@
+CONF_JSON = "conf.json"
+RUN_INFO_JSON = "Run_info.json"
+ASLG_PC12_PARQUET = "train-00000-of-00001.parquet"
+WLASL_JSON = "WLASL_v0.3.json"
+ASLG_PC12_CLEAN_JSONL = "aslg_pc12_clean.jsonl"
+GLOSS_TO_VIDEOID_MAP_JSON = "gloss_to_videoid_map.json"
+ASLG_PC12_TOKENIZED_PT = "aslg_pc12_tokenized.pt"
+PREDICTIONS_CSV = "Predictions.csv"

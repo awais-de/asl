@@ -11,6 +11,10 @@ from src.utils.helpers import (
     Artifact,
     add_artifact_to_metadata,
 )
+from src.utils.artifact_names import (
+    ASLG_PC12_CLEAN_JSONL,
+    ASLG_PC12_TOKENIZED_PT,
+)
 
 logger = get_logger(__name__)
 
@@ -58,7 +62,7 @@ def main():
     run_metadata = load_run_metadata(run_id)
 
     # Get preprocessed ASLG jsonl path dynamically from artifacts
-    aslg_cleaned_path_str = run_metadata["artifacts"].get("aslg_pc12_clean.jsonl")
+    aslg_cleaned_path_str = run_metadata["artifacts"].get(ASLG_PC12_CLEAN_JSONL)
     if not aslg_cleaned_path_str:
         logger.error("ASLG cleaned JSONL path not found in run metadata!")
         return
@@ -79,14 +83,14 @@ def main():
     }
 
     # Save tokenized dataset
-    save_path = Path("artifacts/aslg_pc12_tokenized.pt")
+    save_path = Path("artifacts") / ASLG_PC12_TOKENIZED_PT
     save_path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(tokenized_dataset, save_path)
     logger.info(f"Saved tokenized dataset to {save_path}")
 
     # Register new artifact
     tokenized_artifact = Artifact(
-        name="aslg_pc12_tokenized.pt",
+        name=ASLG_PC12_TOKENIZED_PT,
         type="pt",
         run_id=run_id,
         use_run_folder=False,

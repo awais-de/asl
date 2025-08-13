@@ -9,6 +9,7 @@ from pathlib import Path
 from torch.utils.data import DataLoader
 from src.utils.logging import get_logger
 from src.utils.helpers import get_latest_run_id, load_run_metadata
+from src.utils.artifact_names import ASLG_PC12_TOKENIZED_PT
 from aslg_pc12_dataset import ASLGPC12Dataset
 
 logger = get_logger(__name__)
@@ -28,7 +29,7 @@ def get_dataloader(tokenized_path: Path, batch_size=32, shuffle=True, num_worker
 def main():
     run_id = get_latest_run_id()
     run_metadata = load_run_metadata(run_id)
-    tokenized_path_str = run_metadata["artifacts"].get("aslg_pc12_tokenized.pt")
+    tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
     if not tokenized_path_str:
         logger.error("Tokenized dataset path not found in run metadata!")
         return

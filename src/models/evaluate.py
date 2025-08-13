@@ -16,7 +16,10 @@ from src.utils.helpers import (
     Artifact,
     add_artifact_to_metadata,
 )
-
+from src.utils.artifact_names import (
+    ASLG_PC12_TOKENIZED_PT,
+    PREDICTIONS_CSV,
+)
 
 def get_best_checkpoint_from_json(json_path: Path):
     if not json_path.exists():
@@ -53,7 +56,7 @@ def main(args=None):
             return
     checkpoint_info_path = Path(checkpoint_info_path_str)
 
-    tokenized_path_str = run_metadata["artifacts"].get("aslg_pc12_tokenized.pt")
+    tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
     if not tokenized_path_str:
         logger.error("Tokenized dataset path not found in run metadata!")
         return
@@ -114,7 +117,7 @@ def main(args=None):
 
     # Register predictions CSV as artifact
     predictions_artifact = Artifact(
-        name=csv_file.name,
+        name=csv_file.name,  # Use the actual filename for this run
         type="csv",
         run_id=run_id,
         use_run_folder=False,

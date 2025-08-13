@@ -12,6 +12,12 @@ from src.utils.helpers import (
     Artifact,
     add_artifact_to_metadata,
 )
+from src.utils.artifact_names import (
+    WLASL_JSON,
+    ASLG_PC12_PARQUET,
+    ASLG_PC12_CLEAN_JSONL,
+    GLOSS_TO_VIDEOID_MAP_JSON,
+)
 
 logger = get_logger(__name__)
 
@@ -111,15 +117,15 @@ def main():
     run_metadata = load_run_metadata(run_id)
 
     # Get dataset paths from run metadata artifacts
-    wlasl_base_path = Path(run_metadata["artifacts"]["wlasl_dataset"])
-    wlasl_json_path = wlasl_base_path / "wlasl-complete" / "WLASL_v0.3.json"
+    wlasl_base_path = Path(run_metadata["artifacts"].get("wlasl_dataset", ""))
+    wlasl_json_path = wlasl_base_path / WLASL_JSON
 
-    aslg_base_path = Path(run_metadata["artifacts"]["aslg_dataset"])
-    aslg_pc12_parquet_path = aslg_base_path / "data" / "train-00000-of-00001.parquet"
+    aslg_base_path = Path(run_metadata["artifacts"].get("aslg_dataset", ""))
+    aslg_pc12_parquet_path = aslg_base_path / "data" / ASLG_PC12_PARQUET
 
     # Define output artifact paths in artifacts/
-    gloss_video_map_path = Path("artifacts/gloss_to_videoid_map.json")
-    aslg_pc12_cleaned_path = Path("artifacts/aslg_pc12_clean.jsonl")
+    gloss_video_map_path = Path("artifacts") / GLOSS_TO_VIDEOID_MAP_JSON
+    aslg_pc12_cleaned_path = Path("artifacts") / ASLG_PC12_CLEAN_JSONL
 
     # Process WLASL gloss-video mapping
     df_gloss, df_gloss_to_video, gloss_to_videos = load_wlasl_data(wlasl_json_path)
@@ -130,7 +136,7 @@ def main():
 
     # Register new artifacts
     gloss_map_artifact = Artifact(
-        name="gloss_to_videoid_map.json",
+        name=GLOSS_TO_VIDEOID_MAP_JSON,
         type="json",
         run_id=run_id,
         use_run_folder=False,
@@ -138,7 +144,7 @@ def main():
     add_artifact_to_metadata(run_metadata, gloss_map_artifact)
 
     aslg_clean_artifact = Artifact(
-        name="aslg_pc12_clean.jsonl",
+        name=ASLG_PC12_CLEAN_JSONL,
         type="jsonl",
         run_id=run_id,
         use_run_folder=False,
