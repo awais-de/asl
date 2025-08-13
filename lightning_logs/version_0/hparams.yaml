@@ -1,0 +1,6 @@
+lr: 0.0003
+model_name: t5-small
+tokenized_path: !!python/object/apply:pathlib.PosixPath
+- data
+- processed
+- aslg_pc12_tokenized.pt

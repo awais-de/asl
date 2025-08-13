@@ -1,24 +1,3 @@
-"""
-ASLGPC12 Dataset Class for loading tokenized or raw data.
-
-This class supports two modes:
-
-1. On-the-fly tokenization:
-   - Loads raw JSONL data.
-   - Tokenizes each sample on demand.
-   - Useful during experimentation or if tokenizer changes often.
-   - Slower data loading but more flexible.
-
-2. Pre-tokenized loading:
-   - Loads preprocessed and tokenized data saved as a torch `.pt` file.
-   - Much faster data loading during training and evaluation.
-   - Recommended once tokenization settings are finalized.
-
-Usage:
-- For faster training, use the pre-tokenized mode by providing the path to the `.pt` file.
-- For flexible quick prototyping, use on-the-fly tokenization by providing raw data path and tokenizer.
-"""
-
 from pathlib import Path
 import json
 import torch
@@ -29,7 +8,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 class ASLGPC12Dataset(Dataset):
-    def __init__(self, data_path: Path, tokenizer_name='t5-small', 
+    def __init__(self, data_path: Path = None, tokenizer_name='t5-small', 
                  tokenized_path: Path = None, max_length=128):
         """
         Initialize dataset.
@@ -46,8 +25,9 @@ class ASLGPC12Dataset(Dataset):
         if tokenized_path and tokenized_path.exists():
             # Load pre-tokenized data (fast loading)
             logging.info(f"Loading pre-tokenized dataset from {tokenized_path}")
-            self.data = torch.load(tokenized_path)
+            self.data = torch.load(tokenized_path)  # Expecting a list of dicts
             self.use_tokenized = True
+            logging.info(f"Loaded {len(self.data)} pre-tokenized samples")
         else:
             # On-the-fly tokenization mode
             logging.info(f"Loading raw dataset from {data_path} with on-the-fly tokenization")
@@ -64,18 +44,19 @@ class ASLGPC12Dataset(Dataset):
 
     def __len__(self):
         if self.use_tokenized:
-            return self.data['input_ids'].size(0)
+            return len(self.data)
         else:
             return len(self.samples)
 
     def __getitem__(self, idx):
         if self.use_tokenized:
-            return {
-                'input_ids': self.data['input_ids'][idx],
-                'attention_mask': self.data['attention_mask'][idx],
-                'labels': self.data['labels'][idx]
-            }
+             return {
+            'input_ids': self.data['input_ids'][idx],
+            'attention_mask': self.data['attention_mask'][idx],
+            'labels': self.data['labels'][idx]
+        }
         else:
+            # Tokenize on the fly
             sample = self.samples[idx]
             text = sample.get('text', "")
             gloss = sample.get('gloss', "")
