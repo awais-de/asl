@@ -116,15 +116,15 @@ def run_evaluation(tokenized_path: Path, run_id: int):
     logger.info("Step 7 completed")
 
 STEP_FUNCTIONS = [
-    ("configuration_setup", run_configuration_setup),
-    ("load_datasets", run_load_videos_dataset),
+#    ("configuration_setup", run_configuration_setup),
+ #   ("load_datasets", run_load_videos_dataset),
     ("preprocess_aslg_pc12", run_preprocess_aslg_pc12),
     ("preprocess_wlasl", run_preprocess_wlasl),
     ("tokenization", run_tokenization),
     ("prepare_dataloader", run_prepare_dataloader),
     ("verification", run_verification),
     ("training", run_training),
-    ("evaluation", run_evaluation),
+ #   ("evaluation", run_evaluation),
 ]
 
 def parse_skip_steps(argv):
