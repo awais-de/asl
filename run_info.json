@@ -1,5 +1,5 @@
 {
-    "last_run_id": 24,
+    "last_run_id": 25,
     "runs": {
         "1": {
             "run_id": 1,
@@ -631,6 +631,30 @@
                 "run24_20250814_023433_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run24_20250814_023436_run24_20250814_023433_aslg_pc12_clean.jsonl",
                 "run24_20250814_023433_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run24_20250814_023436_run24_20250814_023433_gloss_to_videoid_map.json",
                 "run24_20250814_023433_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run24_20250814_023457_run24_20250814_023433_aslg_pc12_tokenized.pt"
+            }
+        },
+        "25": {
+            "run_id": 25,
+            "timestamp": "20250814_030352",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T03:03:52.048460"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T03:03:54.879134"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T03:03:54.949718"
+                }
+            ],
+            "artifacts": {
+                "run25_20250814_030352_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run25_20250814_030354_run25_20250814_030352_aslg_pc12_clean.jsonl",
+                "run25_20250814_030352_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run25_20250814_030354_run25_20250814_030352_gloss_to_videoid_map.json",
+                "run25_20250814_030352_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run25_20250814_030415_run25_20250814_030352_aslg_pc12_tokenized.pt"
             }
         }
     }
