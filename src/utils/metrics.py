@@ -1,17 +1,19 @@
-from datasets import load_metric
+import evaluate
 
 def compute_bleu(predictions, references):
     """
-    Compute BLEU score using sacrebleu via HuggingFace datasets.
+    Compute BLEU score using sacrebleu via HuggingFace evaluate.
     Args:
         predictions (list[str]): list of predicted sentences.
         references (list[str]): list of reference sentences.
     Returns:
         float: BLEU score (0-100).
     """
-    bleu = load_metric("sacrebleu")
+    bleu = evaluate.load("sacrebleu")
     # sacrebleu expects references as list of lists for multi-reference support
-    return bleu.compute(predictions=predictions, references=[[r] for r in references])['score']
+    result = bleu.compute(predictions=predictions, references=[[r] for r in references])
+    return result["score"]
+
 
 def compute_rouge(predictions, references):
     """
@@ -20,12 +22,21 @@ def compute_rouge(predictions, references):
         predictions (list[str]): list of predicted sentences.
         references (list[str]): list of reference sentences.
     Returns:
-        dict: ROUGE scores (rouge1, rouge2, rougeL)
+        dict: ROUGE scores (rouge1, rouge2, rougeL, rougeLsum) in percentage.
     """
-    rouge = load_metric("rouge")
+    rouge = evaluate.load("rouge")
     result = rouge.compute(predictions=predictions, references=references)
-    # Convert scores to percentages and keep main ones
-    return {key: value.mid.fmeasure * 100 for key, value in result.items()}
+
+    processed_scores = {}
+    for key, value in result.items():
+        if hasattr(value, "mid"):  # Old format
+            processed_scores[key] = value.mid.fmeasure * 100
+        else:  # New format (float)
+            processed_scores[key] = value * 100
+
+    return processed_scores
+
+
 
 def compute_exact_match(predictions, references):
     """
@@ -36,5 +47,8 @@ def compute_exact_match(predictions, references):
     Returns:
         float: accuracy percentage.
     """
-    correct = sum(p.strip().lower() == r.strip().lower() for p, r in zip(predictions, references))
-    return correct / len(references) * 100 if references else 0.0
+    correct = sum(
+        p.strip().lower() == r.strip().lower()
+        for p, r in zip(predictions, references)
+    )
+    return (correct / len(references) * 100) if references else 0.0

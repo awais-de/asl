@@ -1,0 +1,637 @@
+{
+    "last_run_id": 24,
+    "runs": {
+        "1": {
+            "run_id": 1,
+            "timestamp": "2025-08-14T01:06:36.360459",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:06:36.360502"
+                }
+            ],
+            "artifacts": {}
+        },
+        "2": {
+            "run_id": 2,
+            "timestamp": "2025-08-14T01:17:39.665899",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:17:39.665931"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:17:42.495916"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:17:42.558556"
+                }
+            ],
+            "artifacts": {
+                "aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run2_20250814_011742_aslg_pc12_clean.jsonl",
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run2_20250814_011742_gloss_to_videoid_map.json"
+            },
+            "status": "FAILED"
+        },
+        "3": {
+            "run_id": 3,
+            "timestamp": "2025-08-14T01:22:55.453021",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:22:55.453053"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:22:58.390977"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:22:58.458632"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T01:23:17.880209"
+                }
+            ],
+            "artifacts": {
+                "aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run3_20250814_012258_aslg_pc12_clean.jsonl",
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run3_20250814_012258_gloss_to_videoid_map.json",
+                "aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run3_20250814_012317_aslg_pc12_tokenized.pt"
+            }
+        },
+        "4": {
+            "run_id": 4,
+            "timestamp": "2025-08-14T01:26:27.214126",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:26:27.214167"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:26:27.794664"
+                }
+            ],
+            "artifacts": {
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run4_20250814_012627_gloss_to_videoid_map.json"
+            }
+        },
+        "5": {
+            "run_id": 5,
+            "timestamp": "2025-08-14T01:26:47.654158",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:26:47.654196"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:26:50.193540"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:26:50.253790"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T01:27:10.282831"
+                }
+            ],
+            "artifacts": {
+                "aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run5_20250814_012650_aslg_pc12_clean.jsonl",
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run5_20250814_012650_gloss_to_videoid_map.json",
+                "aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run5_20250814_012710_aslg_pc12_tokenized.pt"
+            }
+        },
+        "6": {
+            "run_id": 6,
+            "timestamp": "2025-08-14T01:30:51.244497",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:30:51.244529"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:30:54.076695"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:30:54.136422"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T01:31:14.370242"
+                }
+            ],
+            "artifacts": {
+                "aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run6_20250814_013054_aslg_pc12_clean.jsonl",
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run6_20250814_013054_gloss_to_videoid_map.json",
+                "aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run6_20250814_013114_aslg_pc12_tokenized.pt"
+            }
+        },
+        "7": {
+            "run_id": 7,
+            "timestamp": "2025-08-14T01:32:49.023384",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:32:49.023416"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:32:51.834736"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:32:51.904294"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T01:33:11.619043"
+                }
+            ],
+            "artifacts": {
+                "aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run7_20250814_013251_aslg_pc12_clean.jsonl",
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run7_20250814_013251_gloss_to_videoid_map.json",
+                "aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run7_20250814_013311_aslg_pc12_tokenized.pt"
+            }
+        },
+        "8": {
+            "run_id": 8,
+            "timestamp": "2025-08-14T01:46:15.103966",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:46:15.104000"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:46:17.982554"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:46:18.046249"
+                }
+            ],
+            "artifacts": {
+                "aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run8_20250814_014617_aslg_pc12_clean.jsonl",
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run8_20250814_014618_gloss_to_videoid_map.json",
+                "aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run8_20250814_014640_aslg_pc12_tokenized.pt"
+            }
+        },
+        "9": {
+            "run_id": 9,
+            "timestamp": "2025-08-14T01:48:36.487932",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "configuration_setup",
+                    "time": "2025-08-14T01:48:36.487939"
+                }
+            ],
+            "artifacts": {}
+        },
+        "10": {
+            "run_id": 10,
+            "timestamp": "2025-08-14T01:49:36.697016",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:49:36.697048"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:49:39.516429"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:49:39.580223"
+                }
+            ],
+            "artifacts": {
+                "aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run10_20250814_014939_aslg_pc12_clean.jsonl",
+                "gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run10_20250814_014939_gloss_to_videoid_map.json",
+                "aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run10_20250814_014958_aslg_pc12_tokenized.pt"
+            }
+        },
+        "11": {
+            "run_id": 11,
+            "timestamp": "20250814_015736",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T01:57:36.040136"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T01:57:39.817569"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T01:57:39.889715"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T01:58:10.932945"
+                }
+            ],
+            "artifacts": {
+                "run11_20250814_015736_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run11_20250814_015739_run11_20250814_015736_aslg_pc12_clean.jsonl",
+                "run11_20250814_015736_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run11_20250814_015739_run11_20250814_015736_gloss_to_videoid_map.json",
+                "run11_20250814_015736_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run11_20250814_015810_run11_20250814_015736_aslg_pc12_tokenized.pt"
+            }
+        },
+        "12": {
+            "run_id": 12,
+            "timestamp": "20250814_020259",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:02:59.172856"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:03:02.970671"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:03:03.043068"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:03:34.852711"
+                }
+            ],
+            "artifacts": {
+                "run12_20250814_020259_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run12_20250814_020302_run12_20250814_020259_aslg_pc12_clean.jsonl",
+                "run12_20250814_020259_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run12_20250814_020303_run12_20250814_020259_gloss_to_videoid_map.json",
+                "run12_20250814_020259_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run12_20250814_020334_run12_20250814_020259_aslg_pc12_tokenized.pt"
+            }
+        },
+        "13": {
+            "run_id": 13,
+            "timestamp": "20250814_020656",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:06:56.922968"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:07:00.647867"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:07:00.719478"
+                }
+            ],
+            "artifacts": {
+                "run13_20250814_020656_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run13_20250814_020700_run13_20250814_020656_aslg_pc12_clean.jsonl",
+                "run13_20250814_020656_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run13_20250814_020700_run13_20250814_020656_gloss_to_videoid_map.json",
+                "run13_20250814_020656_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run13_20250814_020733_run13_20250814_020656_aslg_pc12_tokenized.pt"
+            }
+        },
+        "14": {
+            "run_id": 14,
+            "timestamp": "20250814_020849",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:08:49.593315"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:08:53.340026"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:08:53.411081"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:09:24.836377"
+                }
+            ],
+            "artifacts": {
+                "run14_20250814_020849_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run14_20250814_020853_run14_20250814_020849_aslg_pc12_clean.jsonl",
+                "run14_20250814_020849_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run14_20250814_020853_run14_20250814_020849_gloss_to_videoid_map.json",
+                "run14_20250814_020849_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run14_20250814_020924_run14_20250814_020849_aslg_pc12_tokenized.pt"
+            }
+        },
+        "15": {
+            "run_id": 15,
+            "timestamp": "20250814_021155",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:11:55.923496"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:11:59.748713"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:11:59.821290"
+                }
+            ],
+            "artifacts": {
+                "run15_20250814_021155_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run15_20250814_021159_run15_20250814_021155_aslg_pc12_clean.jsonl",
+                "run15_20250814_021155_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run15_20250814_021159_run15_20250814_021155_gloss_to_videoid_map.json",
+                "run15_20250814_021155_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run15_20250814_021232_run15_20250814_021155_aslg_pc12_tokenized.pt"
+            }
+        },
+        "16": {
+            "run_id": 16,
+            "timestamp": "20250814_021400",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:14:00.520692"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:14:05.176505"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:14:05.261646"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:14:41.747284"
+                },
+                {
+                    "name": "verification",
+                    "time": "2025-08-14T02:15:23.538884"
+                },
+                {
+                    "name": "training",
+                    "time": "2025-08-14T02:15:25.109528"
+                }
+            ],
+            "artifacts": {
+                "run16_20250814_021400_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run16_20250814_021405_run16_20250814_021400_aslg_pc12_clean.jsonl",
+                "run16_20250814_021400_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run16_20250814_021405_run16_20250814_021400_gloss_to_videoid_map.json",
+                "run16_20250814_021400_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run16_20250814_021441_run16_20250814_021400_aslg_pc12_tokenized.pt"
+            }
+        },
+        "17": {
+            "run_id": 17,
+            "timestamp": "20250814_021900",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:19:00.915211"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:19:03.854244"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:19:03.921307"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:19:25.175619"
+                },
+                {
+                    "name": "verification",
+                    "time": "2025-08-14T02:19:28.886488"
+                }
+            ],
+            "artifacts": {
+                "run17_20250814_021900_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run17_20250814_021903_run17_20250814_021900_aslg_pc12_clean.jsonl",
+                "run17_20250814_021900_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run17_20250814_021903_run17_20250814_021900_gloss_to_videoid_map.json",
+                "run17_20250814_021900_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run17_20250814_021925_run17_20250814_021900_aslg_pc12_tokenized.pt"
+            }
+        },
+        "18": {
+            "run_id": 18,
+            "timestamp": "20250814_022012",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:20:12.949215"
+                }
+            ],
+            "artifacts": {}
+        },
+        "19": {
+            "run_id": 19,
+            "timestamp": "20250814_022037",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:20:37.494560"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:20:40.292752"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:20:40.354594"
+                }
+            ],
+            "artifacts": {
+                "run19_20250814_022037_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run19_20250814_022040_run19_20250814_022037_aslg_pc12_clean.jsonl",
+                "run19_20250814_022037_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run19_20250814_022040_run19_20250814_022037_gloss_to_videoid_map.json",
+                "run19_20250814_022037_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run19_20250814_022059_run19_20250814_022037_aslg_pc12_tokenized.pt"
+            }
+        },
+        "20": {
+            "run_id": 20,
+            "timestamp": "20250814_022122",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:21:22.050913"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:21:24.904898"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:21:24.965770"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:21:45.417819"
+                },
+                {
+                    "name": "verification",
+                    "time": "2025-08-14T02:21:48.561771"
+                }
+            ],
+            "artifacts": {
+                "run20_20250814_022122_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run20_20250814_022124_run20_20250814_022122_aslg_pc12_clean.jsonl",
+                "run20_20250814_022122_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run20_20250814_022124_run20_20250814_022122_gloss_to_videoid_map.json",
+                "run20_20250814_022122_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run20_20250814_022145_run20_20250814_022122_aslg_pc12_tokenized.pt"
+            }
+        },
+        "21": {
+            "run_id": 21,
+            "timestamp": "20250814_022534",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:25:34.806465"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:25:37.603241"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:25:37.663145"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:25:57.147796"
+                },
+                {
+                    "name": "verification",
+                    "time": "2025-08-14T02:26:02.419912"
+                },
+                {
+                    "name": "training",
+                    "time": "2025-08-14T02:26:02.483314"
+                }
+            ],
+            "artifacts": {
+                "run21_20250814_022534_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run21_20250814_022537_run21_20250814_022534_aslg_pc12_clean.jsonl",
+                "run21_20250814_022534_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run21_20250814_022537_run21_20250814_022534_gloss_to_videoid_map.json",
+                "run21_20250814_022534_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run21_20250814_022557_run21_20250814_022534_aslg_pc12_tokenized.pt"
+            }
+        },
+        "22": {
+            "run_id": 22,
+            "timestamp": "20250814_022901",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:29:01.100258"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:29:03.931797"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:29:03.992281"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:29:25.093137"
+                },
+                {
+                    "name": "verification",
+                    "time": "2025-08-14T02:29:28.741093"
+                },
+                {
+                    "name": "training",
+                    "time": "2025-08-14T02:29:28.805619"
+                }
+            ],
+            "artifacts": {
+                "run22_20250814_022901_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run22_20250814_022903_run22_20250814_022901_aslg_pc12_clean.jsonl",
+                "run22_20250814_022901_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run22_20250814_022903_run22_20250814_022901_gloss_to_videoid_map.json",
+                "run22_20250814_022901_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run22_20250814_022925_run22_20250814_022901_aslg_pc12_tokenized.pt"
+            }
+        },
+        "23": {
+            "run_id": 23,
+            "timestamp": "20250814_023103",
+            "status": "FAILED",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:31:03.689368"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:31:06.607253"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:31:06.670245"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:31:26.963984"
+                },
+                {
+                    "name": "verification",
+                    "time": "2025-08-14T02:31:30.088270"
+                },
+                {
+                    "name": "training",
+                    "time": "2025-08-14T02:31:30.152092"
+                }
+            ],
+            "artifacts": {
+                "run23_20250814_023103_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run23_20250814_023106_run23_20250814_023103_aslg_pc12_clean.jsonl",
+                "run23_20250814_023103_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run23_20250814_023106_run23_20250814_023103_gloss_to_videoid_map.json",
+                "run23_20250814_023103_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run23_20250814_023126_run23_20250814_023103_aslg_pc12_tokenized.pt"
+            }
+        },
+        "24": {
+            "run_id": 24,
+            "timestamp": "20250814_023433",
+            "status": "RUNNING",
+            "steps": [
+                {
+                    "name": "preprocess_aslg_pc12",
+                    "time": "2025-08-14T02:34:33.402055"
+                },
+                {
+                    "name": "preprocess_wlasl",
+                    "time": "2025-08-14T02:34:36.358597"
+                },
+                {
+                    "name": "tokenization",
+                    "time": "2025-08-14T02:34:36.424712"
+                },
+                {
+                    "name": "prepare_dataloader",
+                    "time": "2025-08-14T02:34:57.923427"
+                },
+                {
+                    "name": "verification",
+                    "time": "2025-08-14T02:35:01.288744"
+                }
+            ],
+            "artifacts": {
+                "run24_20250814_023433_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run24_20250814_023436_run24_20250814_023433_aslg_pc12_clean.jsonl",
+                "run24_20250814_023433_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run24_20250814_023436_run24_20250814_023433_gloss_to_videoid_map.json",
+                "run24_20250814_023433_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run24_20250814_023457_run24_20250814_023433_aslg_pc12_tokenized.pt"
+            }
+        }
+    }
+}

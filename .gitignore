@@ -12,3 +12,12 @@ logs/*
 
 # Ignore the entire .venv folder
 .venv/
+
+# Ignore all files in artifacts except .gitkeep
+artifacts/*
+!artifacts/.gitkeep
+
+src/models/__pycache__/
+src/data_loading/__pycache__/
+src/utils/__pycache__/
+src/preprocessing/__pycache__/

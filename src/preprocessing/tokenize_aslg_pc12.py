@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import argparse
 from transformers import AutoTokenizer
 import torch
 
@@ -56,20 +57,18 @@ class Tokenizer:
         logger.info(f"Tokenized {len(tokenized_samples)} samples")
         return tokenized_samples
 
+def main(args=None):
+    parser = argparse.ArgumentParser(description="Tokenize ASLG-PC12 dataset")
+    parser.add_argument("--input", type=str, required=True, help="Path to cleaned ASLG-PC12 JSONL")
+    parser.add_argument("--output", type=str, required=True, help="Path to save tokenized .pt file")
+    parser.add_argument("--model_name", type=str, default="t5-small", help="Tokenizer model name")
+    parsed_args = parser.parse_args(args)
 
-def main():
-    run_id = get_latest_run_id()
-    run_metadata = load_run_metadata(run_id)
+    input_path = Path(parsed_args.input)
+    output_path = Path(parsed_args.output)
 
-    # Get preprocessed ASLG jsonl path dynamically from artifacts
-    aslg_cleaned_path_str = run_metadata["artifacts"].get(ASLG_PC12_CLEAN_JSONL)
-    if not aslg_cleaned_path_str:
-        logger.error("ASLG cleaned JSONL path not found in run metadata!")
-        return
-    aslg_cleaned_path = Path(aslg_cleaned_path_str)
-
-    tokenizer = Tokenizer(model_name='t5-small')
-    tokenized_data = tokenizer.tokenize_data(aslg_cleaned_path)
+    tokenizer = Tokenizer(model_name=parsed_args.model_name)
+    tokenized_data = tokenizer.tokenize_data(input_path)
 
     # Stack tensors
     input_ids = torch.stack([item['input_ids'] for item in tokenized_data])
@@ -83,12 +82,13 @@ def main():
     }
 
     # Save tokenized dataset
-    save_path = Path("artifacts") / ASLG_PC12_TOKENIZED_PT
-    save_path.parent.mkdir(parents=True, exist_ok=True)
-    torch.save(tokenized_dataset, save_path)
-    logger.info(f"Saved tokenized dataset to {save_path}")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    torch.save(tokenized_dataset, output_path)
+    logger.info(f"Saved tokenized dataset to {output_path}")
 
-    # Register new artifact
+    # Register new artifact in run metadata
+    run_id = get_latest_run_id()
+    run_metadata = load_run_metadata(run_id)
     tokenized_artifact = Artifact(
         name=ASLG_PC12_TOKENIZED_PT,
         type="pt",
@@ -98,10 +98,8 @@ def main():
     add_artifact_to_metadata(run_metadata, tokenized_artifact)
     save_run_metadata(run_id, run_metadata)
 
-    # Sanity logging
     logger.info(f"Example tokenized input_ids: {tokenized_data[0]['input_ids']}")
     logger.info(f"Example tokenized labels: {tokenized_data[0]['labels']}")
-
 
 if __name__ == "__main__":
     main()

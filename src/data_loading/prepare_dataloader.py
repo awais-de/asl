@@ -1,21 +1,35 @@
 """
 Prepare DataLoader for ASLGPC12 dataset.
 
-Loads the pre-tokenized dataset saved as `.pt` file
-and returns a PyTorch DataLoader suitable for training or evaluation.
+Supports both pre-tokenized and on-the-fly tokenization modes.
 """
 
 from pathlib import Path
+import argparse
 from torch.utils.data import DataLoader
-from src.utils.logging import get_logger
-from src.utils.helpers import get_latest_run_id, load_run_metadata
-from src.utils.artifact_names import ASLG_PC12_TOKENIZED_PT
-from aslg_pc12_dataset import ASLGPC12Dataset
+from src.data_loading.aslg_pc12_dataset import ASLGPC12Dataset
 
-logger = get_logger(__name__)
+def get_dataloader(data_path: Path = None, tokenized_path: Path = None, tokenizer_name='t5-small',
+                   batch_size=32, shuffle=True, num_workers=2):
+    """
+    Create a DataLoader for the ASLGPC12 dataset.
 
-def get_dataloader(tokenized_path: Path, batch_size=32, shuffle=True, num_workers=2):
-    dataset = ASLGPC12Dataset(data_path=None, tokenized_path=tokenized_path)
+    Args:
+        data_path (Path): Path to raw JSONL file (for on-the-fly tokenization).
+        tokenized_path (Path): Path to pre-tokenized `.pt` file.
+        tokenizer_name (str): Tokenizer to use for on-the-fly mode.
+        batch_size (int): Batch size.
+        shuffle (bool): Shuffle dataset.
+        num_workers (int): Number of data loading workers.
+
+    Returns:
+        DataLoader: PyTorch DataLoader instance.
+    """
+    dataset = ASLGPC12Dataset(
+        data_path=data_path,
+        tokenizer_name=tokenizer_name,
+        tokenized_path=tokenized_path
+    )
     dataloader = DataLoader(
         dataset,
         batch_size=batch_size,
@@ -25,27 +39,35 @@ def get_dataloader(tokenized_path: Path, batch_size=32, shuffle=True, num_worker
     )
     return dataloader
 
+def main(tokenized_path=None, data_path=None, tokenizer_name="t5-small", batch_size=32, shuffle=False, num_workers=2):
+    parser = argparse.ArgumentParser(description="Prepare DataLoader for ASLGPC12 dataset")
+    parser.add_argument("--tokenized_path", type=str, default=None, help="Path to pre-tokenized .pt file")
+    parser.add_argument("--data_path", type=str, default=None, help="Path to raw JSONL file")
+    parser.add_argument("--tokenizer_name", type=str, default="t5-small", help="Tokenizer for on-the-fly mode")
+    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--shuffle", action="store_true")
+    parser.add_argument("--num_workers", type=int, default=2)
+    args = parser.parse_args()
 
-def main():
-    run_id = get_latest_run_id()
-    run_metadata = load_run_metadata(run_id)
-    tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
-    if not tokenized_path_str:
-        logger.error("Tokenized dataset path not found in run metadata!")
-        return
+    #tokenized_path = Path(args.tokenized_path) if args.tokenized_path else None
+    print(tokenized_path)
+    data_path = Path(args.data_path) if args.data_path else None
 
-    tokenized_path = Path(tokenized_path_str)
-    batch_size = 32
+    dataloader = get_dataloader(
+        data_path=data_path,
+        tokenized_path=tokenized_path,
+        tokenizer_name=args.tokenizer_name,
+        batch_size=args.batch_size,
+        shuffle=args.shuffle,
+        num_workers=args.num_workers
+    )
 
-    dataloader = get_dataloader(tokenized_path, batch_size=batch_size)
-
-    # Quick check on batch data shapes
+    # Quick check
     for batch in dataloader:
-        logger.info(f"Batch keys: {list(batch.keys())}")
-        logger.info(f"input_ids shape: {batch['input_ids'].shape}")
-        logger.info(f"labels shape: {batch['labels'].shape}")
+        print("Batch keys:", batch.keys())
+        print("input_ids shape:", batch['input_ids'].shape)
+        print("labels shape:", batch['labels'].shape)
         break
-
 
 if __name__ == "__main__":
     main()

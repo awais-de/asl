@@ -56,7 +56,6 @@ class TextToGlossModel(pl.LightningModule):
         val_loss = outputs.loss
         self.log('val_loss', val_loss, prog_bar=True)
 
-        # Generate predictions for metrics
         generated_ids = self.model.generate(
             input_ids=batch['input_ids'],
             attention_mask=batch['attention_mask'],
@@ -81,7 +80,6 @@ class TextToGlossModel(pl.LightningModule):
             for k, v in rouge_scores.items():
                 self.log(f'val_rouge_{k}', v, prog_bar=False)
 
-        # Clear for next epoch
         self.val_preds = []
         self.val_labels = []
 
@@ -103,15 +101,24 @@ def main(args=None):
     parser.add_argument('--gpus', type=int, default=1, help="Number of GPUs to use, 0 for CPU")
     parser.add_argument('--lr', type=float, default=3e-4)
     parser.add_argument('--batch_size', type=int, default=32)
+    parser.add_argument('--tokenized_path', type=str, help="Path to the tokenized dataset (.pt)")
+    parser.add_argument('--checkpoint_dir', type=str, default='artifacts', help="Checkpoint save directory")
     parsed_args = parser.parse_args(args)
 
-    # Load run metadata and get tokenized dataset artifact
-    run_id = get_latest_run_id()
-    run_metadata = load_run_metadata(run_id)
-    tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
-    if not tokenized_path_str:
-        raise RuntimeError("Tokenized dataset path not found in run metadata!")
-    tokenized_path = Path(tokenized_path_str)
+    # Resolve tokenized_path
+    if parsed_args.tokenized_path:
+        tokenized_path = Path(parsed_args.tokenized_path)
+        run_id = get_latest_run_id()
+        run_metadata = load_run_metadata(run_id)
+    else:
+        run_id = get_latest_run_id()
+        run_metadata = load_run_metadata(run_id)
+        tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
+        if not tokenized_path_str:
+            raise RuntimeError("Tokenized dataset path not found in run metadata and not provided via --tokenized_path")
+        tokenized_path = Path(tokenized_path_str)
+
+    checkpoint_dir = Path(parsed_args.checkpoint_dir)
 
     model = TextToGlossModel(
         model_name='t5-small',
@@ -123,7 +130,7 @@ def main(args=None):
 
     checkpoint_callback = ModelCheckpoint(
         monitor='val_loss',
-        dirpath='artifacts',
+        dirpath=checkpoint_dir,
         filename='text_to_gloss-epoch={epoch:02d}-val_loss={val_loss:.4f}',
         save_top_k=3,
         mode='min'
@@ -159,11 +166,9 @@ def main(args=None):
     trainer.fit(model)
 
     if checkpoint_paths:
-        # Save checkpoint info with val_loss info extracted from filename
         checkpoint_info = []
         for path_str in checkpoint_paths:
             path = Path(path_str)
-            # Extract val_loss from filename pattern e.g. val_loss=0.1234
             val_loss_str = path.name.split('val_loss=')[-1].replace('.ckpt', '')
             try:
                 val_loss = float(val_loss_str)
@@ -175,13 +180,12 @@ def main(args=None):
             })
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_file = Path("artifacts") / f"checkpoints_info_{timestamp}.json"
+        output_file = checkpoint_dir / f"checkpoints_info_{timestamp}.json"
         output_file.parent.mkdir(parents=True, exist_ok=True)
         with open(output_file, "w") as f:
             json.dump(checkpoint_info, f, indent=4)
         print(f"[INFO] Saved checkpoint info to: {output_file}")
 
-        # Register checkpoint info artifact
         ckpt_info_artifact = Artifact(
             name=output_file.name,
             type="json",

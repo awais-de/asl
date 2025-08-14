@@ -1,6 +1,7 @@
 import os
 import sys
 import argparse
+import json
 from pathlib import Path
 import shutil
 from datasets import load_dataset
@@ -15,9 +16,19 @@ from src.utils.helpers import (
 from src.utils.artifact_names import (
     WLASL_JSON,
     ASLG_PC12_PARQUET,
+    CONF_JSON,
 )
 
 logger = get_logger(__name__)
+
+def load_conf_json(conf_path=CONF_JSON):
+    conf_path = Path(conf_path)
+    if not conf_path.exists():
+        logger.error(f"Configuration file {conf_path} not found.")
+        sys.exit(1)
+    with open(conf_path, "r") as f:
+        conf = json.load(f)
+    return conf
 
 def download_and_prepare_kaggle_dataset(kaggle_path: str, dest_dir: Path):
     try:
@@ -50,44 +61,20 @@ def download_and_prepare_hf_dataset(dataset_name: str, dest_dir: Path):
 
 def main():
     parser = argparse.ArgumentParser(description="Download and prepare video datasets")
-
-    default_wlasl_kaggle_path = "sttaseen/wlasl2000-resized"
-    default_wlasl_dest_dir = "data/raw/WLASL2000"
-    default_aslg_hf_name = "achrafothman/aslg_pc12"
-    default_aslg_dest_dir = "data/raw/ASLG_PC12"
-
-    parser.add_argument("--wlasl_kaggle_path", type=str, default=None,
-                        help=f"Kaggle path for WLASL2000 dataset (default: {default_wlasl_kaggle_path})")
-    parser.add_argument("--wlasl_dest_dir", type=str, default=None,
-                        help=f"Local directory to save WLASL dataset (default: {default_wlasl_dest_dir})")
-    parser.add_argument("--aslg_hf_name", type=str, default=None,
-                        help=f"Hugging Face dataset name for ASLG-PC12 (default: {default_aslg_hf_name})")
-    parser.add_argument("--aslg_dest_dir", type=str, default=None,
-                        help=f"Local directory to save ASLG dataset (default: {default_aslg_dest_dir})")
-
+    parser.add_argument("--conf", type=str, default=CONF_JSON, help="Path to conf.json")
+    parser.add_argument("--wlasl_dest_dir", type=str, default="data/raw/WLASL2000", help="Local directory to save WLASL dataset")
+    parser.add_argument("--aslg_dest_dir", type=str, default="data/raw/ASLG_PC12", help="Local directory to save ASLG dataset")
     args = parser.parse_args()
 
-    # Determine WLASL kaggle path and dest dir
-    wlasl_kaggle_path = args.wlasl_kaggle_path or os.getenv("WLASL_KAGGLE_PATH")
-    if not wlasl_kaggle_path:
-        wlasl_kaggle_path = default_wlasl_kaggle_path
-        logger.info(f"No WLASL Kaggle path provided, defaulting to '{wlasl_kaggle_path}'")
+    # Load config
+    conf = load_conf_json(args.conf)
 
-    wlasl_dest_dir = args.wlasl_dest_dir or os.getenv("WLASL_DEST_DIR")
-    if not wlasl_dest_dir:
-        wlasl_dest_dir = default_wlasl_dest_dir
-        logger.info(f"No WLASL destination directory provided, defaulting to '{wlasl_dest_dir}'")
+    # Get dataset URLs/IDs from conf.json
+    wlasl_kaggle_path = conf.get("wlasl_kaggle_path", "sttaseen/wlasl2000-resized")
+    aslg_hf_name = conf.get("aslg_hf_name", "achrafothman/aslg_pc12")
 
-    # Determine ASLG hf dataset name and dest dir
-    aslg_hf_name = args.aslg_hf_name or os.getenv("ASLG_HF_NAME")
-    if not aslg_hf_name:
-        aslg_hf_name = default_aslg_hf_name
-        logger.info(f"No ASLG Hugging Face dataset name provided, defaulting to '{aslg_hf_name}'")
-
-    aslg_dest_dir = args.aslg_dest_dir or os.getenv("ASLG_DEST_DIR")
-    if not aslg_dest_dir:
-        aslg_dest_dir = default_aslg_dest_dir
-        logger.info(f"No ASLG destination directory provided, defaulting to '{aslg_dest_dir}'")
+    wlasl_dest_dir = args.wlasl_dest_dir
+    aslg_dest_dir = args.aslg_dest_dir
 
     run_id = get_next_run_id()
     run_metadata = {
