@@ -9,8 +9,12 @@ This project implements a **multi-stage training and evaluation pipeline** for t
 Unlike basic rule-based approaches, this system integrates:  
 - **Natural Language Processing (NLP)** for accurate English → ASL gloss translation.  
 - **Dataset preprocessing and tokenization** for machine learning training.  
-- **Model training & evaluation** with checkpointing.  
-- **Potential extensions** for video retrieval or avatar-based rendering.
+- **Text-to-gloss model training & evaluation** using PyTorch + Hugging Face.  
+- **Optional video mapping** via the WLASL2000 dataset.  
+
+You can run everything either via:  
+- 📓 **`notebooks/TextToSignLanguage.ipynb`** (end-to-end workflow in a single notebook).  
+- 🖥️ **Python scripts in `src/`** (modular execution).  
 
 ---
 
@@ -29,48 +33,51 @@ asl_project/
 │ ├── processed/ # Cleaned, tokenized datasets & mappings
 │ └── poses/ # (Optional) Pose keypoints from sign videos
 │
-├── src/ # Source code
-│ ├── data_loading/ # Scripts for loading datasets
+├── src/ # Source code (modular scripts)
+│ ├── data_loading/
 │ │ ├── load_videos_dataset.py
 │ │ └── prepare_dataloader.py
-│ ├── preprocessing/ # Dataset cleaning & tokenization
+│ ├── preprocessing/
 │ │ ├── data_preprocessing.py
 │ │ └── tokenize_aslg_pc12.py
-│ ├── verification/ # Pre-training checks
+│ ├── verification/
 │ │ └── check_dataset_and_model.py
-│ ├── models/ # Training & evaluation scripts
+│ ├── models/
 │ │ ├── train.py
 │ │ └── evaluate.py
-│ ├── utils/ # Utility scripts
-│ └── app.py # CLI or API entry point
+│ └── app.py
 │
 ├── notebooks/ # Prototyping & experiments
+│ └── TextToSignLanguage.ipynb # Main notebook
+│
 ├── logs/ # Training and run logs
 ├── models/ # Saved checkpoints & trained models
 ├── requirements.txt # Dependencies
 └── README.md # This file
 
+
 ---
 
 ## 🔄 Pipeline Overview  
 
-The workflow is divided into **7 main steps**:
+The workflow can be followed either inside the **notebook** or step-by-step via **scripts**:
 
-| **Step** | **Description** | **Main Script** | **Artifacts Required** | **Artifacts Generated** |
-|----------|-----------------|-----------------|------------------------|-------------------------|
-| **0. Configuration Setup** | Ensure `conf.json` exists with dataset URLs, paths, and parameters. | — | `conf.json` | `Run_info.json` |
-| **1. Load Datasets** | Download ASLG_PC12 & WLASL2000 datasets from URLs in `conf.json`. | `src/data_loading/load_videos_dataset.py` | `conf.json` | Raw dataset files in `data/raw/` |
-| **2. Preprocess Datasets** | Clean datasets, generate JSON mappings for gloss-to-video IDs. | `src/preprocessing/data_preprocessing.py` | Raw datasets | `data/processed/aslg_pc12_clean.jsonl`, `data/processed/gloss_to_videoid_map.json` |
-| **3. Tokenization** | Tokenize gloss data and save as `.pt` file for PyTorch. | `src/preprocessing/tokenize_aslg_pc12.py` | `data/processed/aslg_pc12_clean.jsonl` | `data/processed/aslg_pc12_tokenized.pt` |
-| **4. DataLoader Preparation** | Create PyTorch DataLoaders for training & evaluation. | `src/data_loading/prepare_dataloader.py` | Tokenized `.pt` file | — |
-| **5. Pre-Training Verification** | Validate environment setup and dataset readiness. | `src/verification/check_dataset_and_model.py` | Tokenized `.pt` file | — |
-| **6. Training** | Train the text-to-gloss model, save checkpoints. | `src/models/train.py` | — | Model checkpoints in `models/checkpoints/` |
-| **7. Evaluation** | Evaluate trained model and generate predictions. | `src/models/evaluate.py` | Tokenized `.pt` file, model checkpoints | `Predictions.csv` |
+| **Step** | **Notebook Section / Script** | **Description** |
+|----------|-------------------------------|-----------------|
+| **0. Config Setup** | Notebook: *Setup & Imports* | Initialize paths, configs, and dependencies |
+| **1. Load Datasets** | `src/data_loading/load_videos_dataset.py` | Download ASLG_PC12 & WLASL2000 |
+| **2. Preprocess Datasets** | Notebook: *Data Preprocessing* / `src/preprocessing/data_preprocessing.py` | Clean datasets, build gloss-to-video mapping |
+| **3. Tokenization** | Notebook: *Tokenization* / `src/preprocessing/tokenize_aslg_pc12.py` | Tokenize dataset for training |
+| **4. DataLoader Prep** | Notebook: *DataLoader* / `src/data_loading/prepare_dataloader.py` | Build PyTorch DataLoaders |
+| **5. Verification** | Notebook: *Sanity Checks* / `src/verification/check_dataset_and_model.py` | Validate setup |
+| **6. Training** | Notebook: *Model Training* / `src/models/train.py` | Train text-to-gloss translation model |
+| **7. Evaluation** | Notebook: *Evaluation* / `src/models/evaluate.py` | Generate predictions and evaluate model |
+| **8. Gloss-to-Video Mapping** | Notebook: *Video Retrieval* | Map predicted gloss tokens to videos and stitch into final output |
 
 ---
 
 ## 📊 Datasets Used  
-- **ASLG_PC12** — Primary gloss-text dataset.  
+- **ASLG_PC12** — English ↔ ASL gloss parallel dataset.  
 - **WLASL2000** — Gloss-to-video mapping dataset.  
 
 *(Future integration planned for How2Sign, SignBank, etc.)*
@@ -86,33 +93,5 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## 🚀 Usage  
-
-### 1️⃣ Configuration Setup  
-Edit `conf.json` to include dataset URLs, file paths, and training parameters.
-
----
-
-### 2️⃣ Run the Pipeline  
-
-```bash
-# Step 1: Load datasets
-python src/data_loading/load_videos_dataset.py
-
-# Step 2: Preprocess datasets
-python src/preprocessing/data_preprocessing.py
-
-# Step 3: Tokenize dataset
-python src/preprocessing/tokenize_aslg_pc12.py
-
-# Step 4: Prepare DataLoader
-python src/data_loading/prepare_dataloader.py
-
-# Step 5: Verify pre-training setup
-python src/verification/check_dataset_and_model.py
-
-# Step 6: Train the model
-python src/models/train.py
-
-# Step 7: Evaluate the model
-python src/models/evaluate.py
+## 🚀 Usage
+jupyter notebook notebooks/TextToSignLanguage.ipynb
