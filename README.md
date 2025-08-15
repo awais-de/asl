@@ -84,14 +84,6 @@ The workflow can be followed either inside the **notebook** or step-by-step via 
 
 ---
 
-## 💻 Installation  
-```bash
-git clone https://github.com/yourusername/asl_project.git
-cd asl_project
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
 ## 🚀 Usage
-jupyter notebook notebooks/TextToSignLanguage.ipynb
+1. Run LoadAndTrainDataset.ipynb
+2. Run TextToSignLanguage.ipynb
