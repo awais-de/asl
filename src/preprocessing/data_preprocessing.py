@@ -2,8 +2,6 @@ import json
 import pandas as pd
 from pathlib import Path
 from typing import Tuple, Dict, List
-
-from src.preprocessing.data_cleaning import clean_text
 from src.utils.logging import get_logger
 from src.utils.helpers import (
     get_latest_run_id,
@@ -11,6 +9,7 @@ from src.utils.helpers import (
     save_run_metadata,
     Artifact,
     add_artifact_to_metadata,
+    clean_text,
 )
 from src.utils.artifact_names import (
     WLASL_JSON,

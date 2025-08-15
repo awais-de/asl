@@ -1,9 +1,14 @@
+import importlib
 import json
 from pathlib import Path
 from datetime import datetime
 import logging
 from dataclasses import dataclass
+import subprocess
+import sys
 from typing import Literal
+import re
+import contractions
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +55,31 @@ class Artifact:
 
         return run_folder / self.build_name()
 
+
+# ------------------- Package Install Helper Functions -------------------
+
+def is_installed(pkg_name):
+    """Check if a package is already installed."""
+    spec = importlib.util.find_spec(pkg_name)
+    return spec is not None
+
+def install_package(pkg_name):
+    """Install a Python package quietly via pip."""
+    subprocess.run(
+        [sys.executable, "-m", "pip", "install", pkg_name],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=True
+    )
+
+def uninstall_package(pkg_name):
+    """Uninstall a Python package quietly via pip."""
+    subprocess.run(
+        [sys.executable, "-m", "pip", "uninstall", "-y", pkg_name],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        check=True
+    )
 
 # ------------------- Run Info Management -------------------
 
@@ -127,3 +157,23 @@ def get_latest_run_artifact(name: str) -> Path:
         raise FileNotFoundError("No runs found in run_info.json")
     artifact = Artifact(name=name, type="other", run_id=latest_id)
     return artifact.get_path()
+
+
+
+# ------------------- Data Cleaning Functions -------------------
+
+def expand_contractions(text: str) -> str:
+    return contractions.fix(text)
+
+def remove_punctuation(text: str) -> str:
+    return re.sub(r'[^\w\s]', '', text)
+
+def normalize_whitespace(text: str) -> str:
+    return re.sub(r'\s+', ' ', text).strip()
+
+def clean_text(text: str) -> str:
+    text = text.lower()
+    text = expand_contractions(text)
+    text = remove_punctuation(text)
+    text = normalize_whitespace(text)
+    return text

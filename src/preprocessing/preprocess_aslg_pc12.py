@@ -1,6 +1,6 @@
 from pathlib import Path
 import pandas as pd
-from src.preprocessing.data_cleaning import clean_text
+from src.utils.helpers import clean_text
 from src.utils.logging import get_logger
 
 logger = get_logger(__name__)
