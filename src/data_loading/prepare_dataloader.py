@@ -1,11 +1,10 @@
 """
 Prepare DataLoader for ASLGPC12 dataset.
 
-Supports both pre-tokenized and on-the-fly tokenization modes.
+Notebook-friendly version: only uses function arguments, no CLI parsing.
 """
 
 from pathlib import Path
-import argparse
 from torch.utils.data import DataLoader
 from src.data_loading.aslg_pc12_dataset import ASLGPC12Dataset
 
@@ -30,36 +29,31 @@ def get_dataloader(data_path: Path = None, tokenized_path: Path = None, tokenize
         tokenizer_name=tokenizer_name,
         tokenized_path=tokenized_path
     )
-    dataloader = DataLoader(
+    return DataLoader(
         dataset,
         batch_size=batch_size,
         shuffle=shuffle,
         num_workers=num_workers,
         pin_memory=True
     )
-    return dataloader
 
-def main(tokenized_path=None, data_path=None, tokenizer_name="t5-small", batch_size=32, shuffle=False, num_workers=2):
-    parser = argparse.ArgumentParser(description="Prepare DataLoader for ASLGPC12 dataset")
-    parser.add_argument("--tokenized_path", type=str, default=None, help="Path to pre-tokenized .pt file")
-    parser.add_argument("--data_path", type=str, default=None, help="Path to raw JSONL file")
-    parser.add_argument("--tokenizer_name", type=str, default="t5-small", help="Tokenizer for on-the-fly mode")
-    parser.add_argument("--batch_size", type=int, default=32)
-    parser.add_argument("--shuffle", action="store_true")
-    parser.add_argument("--num_workers", type=int, default=2)
-    args = parser.parse_args()
+def main(tokenized_path=None, data_path=None, tokenizer_name="t5-small",
+         batch_size=32, shuffle=False, num_workers=2):
+    """
+    Prepares a DataLoader for ASLGPC12 dataset.
 
-    #tokenized_path = Path(args.tokenized_path) if args.tokenized_path else None
-    print(tokenized_path)
-    data_path = Path(args.data_path) if args.data_path else None
+    All arguments are passed directly; no command-line parsing.
+    """
+    tokenized_path = Path(tokenized_path) if tokenized_path else None
+    data_path = Path(data_path) if data_path else None
 
     dataloader = get_dataloader(
         data_path=data_path,
         tokenized_path=tokenized_path,
-        tokenizer_name=args.tokenizer_name,
-        batch_size=args.batch_size,
-        shuffle=args.shuffle,
-        num_workers=args.num_workers
+        tokenizer_name=tokenizer_name,
+        batch_size=batch_size,
+        shuffle=shuffle,
+        num_workers=num_workers
     )
 
     # Quick check
@@ -69,5 +63,4 @@ def main(tokenized_path=None, data_path=None, tokenizer_name="t5-small", batch_s
         print("labels shape:", batch['labels'].shape)
         break
 
-if __name__ == "__main__":
-    main()
+    return dataloader

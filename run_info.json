@@ -735,7 +735,8 @@
             "artifacts": {
                 "run28_20250814_030713_aslg_pc12_clean.jsonl": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run28_20250814_030715_run28_20250814_030713_aslg_pc12_clean.jsonl",
                 "run28_20250814_030713_gloss_to_videoid_map.json": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run28_20250814_030715_run28_20250814_030713_gloss_to_videoid_map.json",
-                "run28_20250814_030713_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run28_20250814_030735_run28_20250814_030713_aslg_pc12_tokenized.pt"
+                "run28_20250814_030713_aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run28_20250814_030735_run28_20250814_030713_aslg_pc12_tokenized.pt",
+                "aslg_pc12_tokenized.pt": "/Users/muhammadawais/Downloads/MRSP-Project/asl/artifacts/run28_20250815_060459_aslg_pc12_tokenized.pt"
             }
         }
     }

@@ -1,4 +1,3 @@
-import argparse
 import json
 from datetime import datetime
 from pathlib import Path
@@ -18,13 +17,13 @@ from src.utils.helpers import (
     Artifact,
     add_artifact_to_metadata,
 )
-from src.utils.artifact_names import ASLG_PC12_TOKENIZED_PT
+from src.utils.artifact_names import ARTIFACTS_FOLDER, ASLG_PC12_TOKENIZED_PT
 
 
 class TextToGlossModel(pl.LightningModule):
     def __init__(self, model_name='t5-small', lr=3e-4, tokenized_path=None):
         super().__init__()
-        self.save_hyperparameters()
+        #self.save_hyperparameters(logger=False)
 
         self.model = T5ForConditionalGeneration.from_pretrained(model_name)
         self.tokenizer = T5TokenizerFast.from_pretrained(model_name)
@@ -95,19 +94,16 @@ class TextToGlossModel(pl.LightningModule):
         return DataLoader(dataset, batch_size=32, shuffle=False, num_workers=4, pin_memory=True)
 
 
-def main(args=None):
-    parser = argparse.ArgumentParser(description="Train T5 Text-to-Gloss model on ASLGPC12")
-    parser.add_argument('--max_epochs', type=int, default=5)
-    parser.add_argument('--gpus', type=int, default=1, help="Number of GPUs to use, 0 for CPU")
-    parser.add_argument('--lr', type=float, default=3e-4)
-    parser.add_argument('--batch_size', type=int, default=32)
-    parser.add_argument('--tokenized_path', type=str, help="Path to the tokenized dataset (.pt)")
-    parser.add_argument('--checkpoint_dir', type=str, default='artifacts', help="Checkpoint save directory")
-    parsed_args = parser.parse_args(args)
-
+def main():
+    tokenized_path = f'{ARTIFACTS_FOLDER}/{ASLG_PC12_TOKENIZED_PT}'
+    max_epochs = 5
+    gpus = 1
+    lr = 3e-4
+    batch_size = 32
+    checkpoint_dir = f'{ARTIFACTS_FOLDER}/checkpoints'
     # Resolve tokenized_path
-    if parsed_args.tokenized_path:
-        tokenized_path = Path(parsed_args.tokenized_path)
+    if tokenized_path:
+        tokenized_path = Path(tokenized_path)
         run_id = get_latest_run_id()
         run_metadata = load_run_metadata(run_id)
     else:
@@ -115,14 +111,14 @@ def main(args=None):
         run_metadata = load_run_metadata(run_id)
         tokenized_path_str = run_metadata["artifacts"].get(ASLG_PC12_TOKENIZED_PT)
         if not tokenized_path_str:
-            raise RuntimeError("Tokenized dataset path not found in run metadata and not provided via --tokenized_path")
+            raise RuntimeError("Tokenized dataset path not found in run metadata and not provided via tokenized_path")
         tokenized_path = Path(tokenized_path_str)
 
-    checkpoint_dir = Path(parsed_args.checkpoint_dir)
+    checkpoint_dir = Path(checkpoint_dir)
 
     model = TextToGlossModel(
         model_name='t5-small',
-        lr=parsed_args.lr,
+        lr=lr,
         tokenized_path=tokenized_path,
     )
 
@@ -136,26 +132,25 @@ def main(args=None):
         mode='min'
     )
 
+    # Track saved checkpoints
     orig_save_ckpt = checkpoint_callback._save_checkpoint
-
     def _tracking_save_checkpoint(*args, **kwargs):
         result = orig_save_ckpt(*args, **kwargs)
         latest_ckpt = checkpoint_callback.best_model_path or checkpoint_callback.last_model_path
         if latest_ckpt and latest_ckpt not in checkpoint_paths:
             checkpoint_paths.append(latest_ckpt)
         return result
-
     checkpoint_callback._save_checkpoint = _tracking_save_checkpoint
 
-    if parsed_args.gpus == 0:
+    if gpus == 0:
         accelerator = 'cpu'
         devices = 1
     else:
         accelerator = 'auto'
-        devices = parsed_args.gpus
+        devices = gpus
 
     trainer = pl.Trainer(
-        max_epochs=parsed_args.max_epochs,
+        max_epochs=max_epochs,
         accelerator='mps' if torch.backends.mps.is_available() else accelerator,
         devices=1 if torch.backends.mps.is_available() else devices,
         callbacks=[checkpoint_callback],
@@ -165,6 +160,7 @@ def main(args=None):
 
     trainer.fit(model)
 
+    # Save checkpoint info
     if checkpoint_paths:
         checkpoint_info = []
         for path_str in checkpoint_paths:
@@ -194,7 +190,3 @@ def main(args=None):
         )
         add_artifact_to_metadata(run_metadata, ckpt_info_artifact)
         save_run_metadata(run_id, run_metadata)
-
-
-if __name__ == "__main__":
-    main()
